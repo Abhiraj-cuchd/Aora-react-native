@@ -1,10 +1,17 @@
-import { View, Text, SafeAreaView, ScrollView, Image } from "react-native";
+import {
+  View,
+  Text,
+  SafeAreaView,
+  ScrollView,
+  Image,
+  Alert,
+} from "react-native";
 import React, { useState } from "react";
-
+import { createUser } from "../../lib/appwrite";
 import { images } from "../../constants";
 import FormField from "../../components/FormField";
 import CustomButton from "../../components/CustomButton";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 
 const SignUpScreen = () => {
   const [form, setForm] = useState({
@@ -15,7 +22,25 @@ const SignUpScreen = () => {
 
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = () => {};
+  const handleSubmit = async () => {
+    if (!form.userName || !form.password || !form.email) {
+      Alert.alert("Error", "Please fill in all the fields");
+    }
+    setLoading(true);
+    try {
+      const result = await createUser(
+        form?.email,
+        form?.password,
+        form?.userName
+      );
+      router.replace("/home");
+    } catch (error) {
+      Alert.alert("Error", "Something went wrong");
+    } finally {
+      setLoading(false);
+    }
+    // createUser();
+  };
 
   return (
     <SafeAreaView className="bg-primary h-full">
@@ -50,7 +75,7 @@ const SignUpScreen = () => {
             keyboardType="email-address"
           />
           <CustomButton
-            title="Sign In"
+            title="Sign Up"
             handlePress={handleSubmit}
             containerStyles="mt-7"
             isLoading={loading}
