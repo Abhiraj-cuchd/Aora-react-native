@@ -16,14 +16,15 @@ import EmptyState from "../../components/EmptyState";
 import { getAllPosts, getLatestPosts } from "../../lib/appwrite";
 import useAppwrite from "../../lib/useAppwrite";
 import VideoCard from "../../components/VideoCard";
+import { useGlobalContext } from "../../context/GlobalProvider";
 
 const Home = () => {
   const { data: posts, refreshing, onRefresh } = useAppwrite(getAllPosts);
 
   const { data: latestPosts } = useAppwrite(getLatestPosts);
 
-  console.log(posts[0]);
-
+  const { user, setUser, setIsLoggedIn } = useGlobalContext();
+  
   return (
     <SafeAreaView className="bg-primary h-full">
       <FlatList
@@ -39,7 +40,7 @@ const Home = () => {
                   Welcome Back
                 </Text>
                 <Text className="text-2xl font-psemibold text-white">
-                  Abhiraj
+                  {user?.username}
                 </Text>
               </View>
 

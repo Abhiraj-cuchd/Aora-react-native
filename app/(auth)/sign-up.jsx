@@ -12,6 +12,7 @@ import { images } from "../../constants";
 import FormField from "../../components/FormField";
 import CustomButton from "../../components/CustomButton";
 import { Link, router } from "expo-router";
+import { useGlobalContext } from "../../context/GlobalProvider";
 
 const SignUpScreen = () => {
   const [form, setForm] = useState({
@@ -21,6 +22,8 @@ const SignUpScreen = () => {
   });
 
   const [loading, setLoading] = useState(false);
+
+  const { setUser, setIsLoggedIn } = useGlobalContext();
 
   const handleSubmit = async () => {
     if (!form.userName || !form.password || !form.email) {
@@ -33,6 +36,10 @@ const SignUpScreen = () => {
         form?.password,
         form?.userName
       );
+
+      setUser(result);
+      setIsLoggedIn(true);
+
       router.replace("/home");
     } catch (error) {
       Alert.alert("Error", "Something went wrong");
