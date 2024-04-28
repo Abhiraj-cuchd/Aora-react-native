@@ -19,12 +19,17 @@ const FormField = ({
           className="flex-1 text-white font-psemibold text-base"
           value={value}
           placeholder={placeholder}
+          placeholderTextColor="#CDCDE0"
           onChangeText={handleChangeText}
           secureTextEntry={title === "Password" && !showPassword}
         ></TextInput>
         {title === "Password" && (
           <TouchableOpacity onPress={() => setshowPassword(!showPassword)}>
-            <Image source={!showPassword ? icons.eye : icons.eyehide} className='w-6 h-6' resizeMode="contain"/>
+            <Image
+              source={!showPassword ? icons.eye : icons.eyehide}
+              className="w-6 h-6"
+              resizeMode="contain"
+            />
           </TouchableOpacity>
         )}
       </View>
